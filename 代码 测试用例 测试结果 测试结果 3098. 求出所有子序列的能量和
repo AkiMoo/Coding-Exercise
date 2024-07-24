@@ -1,0 +1,26 @@
+class Solution {
+public:
+    static int mod = 1e9+7;
+    static int inf = 0x3f3f3f3f
+    int sumOfPowers(vector<int>& nums, int k) {
+        int n = nums.size();
+        int res = 0;
+        vector<vector<vector<int>>> dp;
+        sort(nums.begin(),nums.end());
+        for(int i =0;i<n;i++){
+            dp[i][1][inf] = 1;
+            for(int j=0;j<i;j++){
+                int diff = abs(nums[i]-nums[j]);
+                for(int p=2;p<=k;p++){
+                    for(auto &[v,cnt]:dp[j][p-1]){
+                        dp[i][p][min(diff,v)] = (dp[i][p][min(diff,v)]+cnt)%mod;
+                    }
+                }
+            }
+        }
+        for(auto &[v,cnt]:dp[i][k]){
+            res = (res +1ll *v*cnt%mod)%mod;
+        }
+    }
+    return res;
+};
