@@ -1,0 +1,23 @@
+class Solution {
+public:
+    vector<int> relocateMarbles(vector<int>& nums, vector<int>& moveFrom, vector<int>& moveTo) {
+        unordered_map<int,int> hash;
+        int n = moveFrom.size();
+        int total = nums.size();
+        for(int i =0;i<total;i++){
+            hash[nums[i]]++;
+        }
+        for(int i=0;i<n;i++){
+            int temp = hash[moveFrom[i]];
+            hash[moveTo[i]]+=temp;
+            hash[moveFrom[i]] = 0;
+        }
+        int ans = 0;
+        for(int i = 0;i<nums[total-1];i++){
+            if(hash[i]>0){
+                ans++;
+            }
+        }
+        return ans;
+    }
+};
